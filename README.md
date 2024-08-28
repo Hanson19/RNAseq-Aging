@@ -1,5 +1,17 @@
 # RNAseq-Aging
 
+Data and Code for multi-timepoint RNAseq analysis. 
+
+All scripts begin with an introduction that includes a brief description of the scripts function.
+Scripts are divided into sections which begin with what packages are required and the expected
+directory structure/files. 
+
+Required data frames to run these scripts are available in data_frames directory, and 
+are separated into different directories. These directories have the same name as those
+expected in the directory structure. 
+
+Below have listed and described the available scripts and data_frame directories. 
+
 #### Scripts Available:
 
 * Identifying_and_Clustering.R
@@ -36,3 +48,24 @@
   * Kaplan-Meier Survivorship curve
   * Creating Supplementary Figure 1
   
+#### Data frame directories:
+
+* Comparison with Other Studies
+  * Have available for each of the studies the validated Gene ID list from flybase and
+  a file that allowed us to get the studies significant genes and direction calls.
+  * Also available validated Gene IDs for significant multi-timepoint analysis genes. 
+* Old v Young sim
+  * Has the gse_salmon_tximeta file for the OvY analysis using Day 59 as old samples
+  * Has an additional directory "Alternative old Code", which has these files for the 
+  alternative old analyses
+* Quant Files
+  * gse_salmon_tximeta file for multi-timepoint anlaysis. 
+* Survivorship 
+  * Death matrix needed for Kaplan-Meier Survivorship curve
+  * Output of Aging_Survivorship_Code which is needed for Identifying_and_Clustering.R
+* gene groups
+  * PANGEA results tables for DRSC GLAD and Flybase gene groups
+* gene ontology
+  * PANGEA results tables for SLIM2BP, MF, and CC
+* pathways
+  * PANGEA results table for REACTOME
