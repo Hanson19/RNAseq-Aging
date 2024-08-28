@@ -66,6 +66,6 @@ Below have listed and described the available scripts and data_frame directories
 * gene groups
   * PANGEA results tables for DRSC GLAD and Flybase gene groups
 * gene ontology
-  * PANGEA results tables for SLIM2BP, MF, and CC
+  * PANGEA results tables for SLIM2 BP, MF, and CC ontology terms
 * pathways
-  * PANGEA results table for REACTOME
+  * PANGEA results table for REACTOME pathways
