@@ -8,7 +8,7 @@
 #Setup: Each main section begins with what packages are required and
 #expected directory structure. Code through identifying genes shared with
 #other papers, identifying our unique genes, and how to make supplemental 
-#table K and Supplemental Figure 5. 
+#table L and Supplemental Figures 11 and 12. 
 
 #Created:6/19/2024, KMH
 #Last Edited: 8/28/2024, KMH

@@ -8,7 +8,7 @@
 #shared between Old v Young and our original multiple time point analysis, if
 #we see the genes being shared enriched for onr of our designated trajectories,
 #and if the direction called in Old v Young analysis matches with out data. 
-#In addition script shows how to make Figure 3 and Supplemental Figure 4
+#In addition script shows how to make Figure 4 and Supplemental Figure 8
 
 #Setup:
 #Each section begins with brief description of the goal, what R packages are 
