@@ -29,7 +29,7 @@ library(Rmisc)
 # Master Directory/
 #   Aging Analysis Results/
 #     Old v Young Sim/
-#       gse_salmon_tximeta_20240521_ovy.RDS
+#       gse_salmon_tximeta_ovy.RDS
 
 #Read in gse
 gse <- readRDS("Aging Analysis Results/Old v Young Sim/gse_salmon_tximeta_ovy.RDS")
