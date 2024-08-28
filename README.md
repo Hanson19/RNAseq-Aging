@@ -47,6 +47,9 @@ Below have listed and described the available scripts and data_frame directories
 * Aging_Survivorship_Code.R
   * Kaplan-Meier Survivorship curve
   * Creating Supplementary Figure 1
+* Tximeta transcript quantification import.R
+  * Script we used to get from quant.sf files for individual samples and
+  summarize the results to a gene level.
   
 #### Data frame directories:
 
