@@ -51,6 +51,8 @@ Below have listed and described the available scripts and data_frame directories
   * Script we used to get from quant.sf files for individual samples and
   summarize the results to a gene level.
   * Cannot run without sample table and the sample quant files.
+* aging_salmon_alignment.sh
+  * Salmon pseudo alignment shell script 
   
 #### Data frame directories:
 
