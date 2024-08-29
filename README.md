@@ -63,7 +63,8 @@ Below have listed and described the available scripts and data_frame directories
   * Has an additional directory "Alternative old Code", which has these files for the 
   alternative old analyses
 * Quant Files
-  * gse_salmon_tximeta file for multi-timepoint anlaysis. 
+  * gse_salmon_tximeta file for multi-timepoint anlaysis.
+  * This is the output from the tximeta transcript quantification import.R script.
 * Survivorship 
   * Death matrix needed for Kaplan-Meier Survivorship curve
   * Output of Aging_Survivorship_Code which is needed for Identifying_and_Clustering.R
