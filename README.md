@@ -2,15 +2,16 @@
 
 Data and Code for multi-timepoint RNAseq analysis. 
 
-All scripts begin with an introduction that includes a brief description of the scripts function.
-Scripts are divided into sections which begin with what packages are required and the expected
-directory structure/files. 
+The R and shell scripts used for the multi-timepoint RNAseq, enrichment, and young vs old analyses are provided in the scripts directory. 
+All R scripts (exception Tximeta transcript quantification import.R) can be run with the provided data in data_frames directory.
+These scripts begin with an introduction that includes a brief description of the scripts function and are divided into sections which begin 
+with what packages are required and the expected directory structure/files. 
 
 Required data frames to run these scripts are available in data_frames directory, and 
 are separated into different directories. These directories have the same name as those
 expected in the directory structure. 
 
-Below have listed and described the available scripts and data_frame directories. 
+Below are listed and described the available scripts and data_frame directories. 
 
 #### Scripts Available:
 
