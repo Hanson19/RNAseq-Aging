@@ -11,6 +11,8 @@
 #SBATCH --output=./run_log_files/salmon_align_%j.log    # Standard output and error logs
 #SBATCH --array=1-48
 
+#Salmon pseudo alignment of RNAseq reads
+
 module load salmon/1.10.1
 files="data_raw/readname.mapping.txt"
 
