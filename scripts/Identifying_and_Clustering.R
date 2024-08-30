@@ -119,7 +119,7 @@ ID_and_Zscore(gse, A1)
 ID_and_Zscore(gse, A2)
 ID_and_Zscore(gse, A3)
 
-#Should have 4 files in wach of the analysis folder in deseq_results
+#Should have 4 files in each of the analysis folder in deseq_results
 # analysis_All_deseq
 # analysis_NormCounts_deseq
 # analysis_Padj_Z_score
@@ -147,7 +147,7 @@ survivorship <- read.csv("deseq_results/survivorship/survivorship_PadjSig_deseq.
 sampling_point <- read.csv("deseq_results/sampling_point/sampling_point_PadjSig_deseq.csv", header = TRUE)
 day <- read.csv("deseq_results/day/day_PadjSig_deseq.csv", header = TRUE)
 
-#Create an ID system for genes to designate which time frames were they identified in
+#Create an ID system for genes to designate which time frames they were identified in
 #Need to create an ID system
 #Pull out gene ids for genes identified in the day and sampling point analysis
 day_genes <- day[[9]]
@@ -169,12 +169,12 @@ all_sig_genes$Survivorship <- NA
 all_sig_genes$Day <- NA
 all_sig_genes$Sampling_Point <- NA
 
-#If a gene was found in an anlysis its get letter in that analysis's column
+#If a gene was found in an anlysis it gets a letter in that analysis's column
 all_sig_genes$Survivorship[all_sig_genes$gene_id %in% survivorship$gene_id] <- c("S") #S for survivorship
 all_sig_genes$Day[all_sig_genes$gene_id %in% day$gene_id] <- c("D") #D for day
 all_sig_genes$Sampling_Point[all_sig_genes$gene_id %in% sampling_point$gene_id] <- c("P") #P for sampling point
 
-#If there is still NA in a column, replace the value wiht ""
+#If there is still NA in a column, replace the value with ""
 all_sig_genes$Survivorship[is.na(all_sig_genes$Survivorship)] <- c("")
 all_sig_genes$Day[is.na(all_sig_genes$Day)] <- c("")
 all_sig_genes$Sampling_Point[is.na(all_sig_genes$Sampling_Point)] <- c("")
