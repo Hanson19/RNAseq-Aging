@@ -441,7 +441,7 @@ for (K in 15:40) {
     row <- cbind(K, min(gene_count$n),quarts[1],mean(gene_count$n), quarts[2],quarts[3], max(gene_count$n),
                  nrow(lo), nrow(ri), nrow(hi), Des_count["L",], Des_count["R",], Des_count["H",], NA, NA)
     colnames(row) <- c("Cluster", "Min","Q1","Mean","Median","Q3","Max",
-                       "Low_Cluster", "Right_Cluster", "High_Cluster", "Low_Genes", "Right_Genes", "High_Genes",
+                       "Low_Cluster", "In_Range_Cluster", "High_Cluster", "Low_Genes", "In_Range_Genes", "High_Genes",
                        "Genes_Gained", "Genes_Lost")
     cluster_df <- as.data.frame(rbind(cluster_df, row))
     prev_cluster <- cluster.correlation
@@ -455,7 +455,7 @@ for (K in 15:40) {
     row <- cbind(K, min(gene_count$n),quarts[1],mean(gene_count$n), quarts[2],quarts[3], max(gene_count$n),
                  nrow(lo), nrow(ri), nrow(hi), Des_count["L",], Des_count["R",], Des_count["H",], nrow(gaingene), nrow(lostgene))
     colnames(row) <- c("Cluster", "Min","Q1","Mean","Median","Q3","Max",
-                       "Low_Cluster", "Right_Cluster", "High_Cluster", "Low_Genes", "Right_Genes", "High_Genes",
+                       "Low_Cluster", "In_Range_Cluster", "High_Cluster", "Low_Genes", "In_Range_Genes", "High_Genes",
                        "Genes_Gained", "Genes_Lost")
     cluster_df <- as.data.frame(rbind(cluster_df, row))
     prev_cluster <- cluster.correlation
