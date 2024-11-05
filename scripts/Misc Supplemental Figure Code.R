@@ -5,7 +5,7 @@
 #Created: 8/28/2024, KMH
 #Last Edited: 8/28/24, KMH
 
-#Supplemental Figure 2 Correlation Dat and Survival####
+#Supplemental Figure 2 Correlation Date and Survival####
 library(tidyverse)
 library(ggpubr)
 
