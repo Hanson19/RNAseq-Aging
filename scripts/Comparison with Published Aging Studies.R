@@ -37,9 +37,9 @@ library(tidyverse)
 #       Carnes et al/
 #         Carnes_FB_GeneIDs_1week_v_5week_filtered.txt
 #         Carnes_RNAseq_Male_Anovas_txt.csv
-#       Giradot et al/
-#         Giradot_FB_Genes_Day3_v_Day40_filtered.txt
-#         Giradot_head_probe.csv
+#       Girardot et al/
+#         Girardot_FB_Genes_Day3_v_Day40_filtered.txt
+#         Girardot_head_probe.csv
 #       Highfill et al/
 #         Highfill_FB_GeneIDs_Young_v_Old_head_filtered.txt
 #         Highfill paper Addfile10 TableS6 Head.txt
@@ -333,38 +333,38 @@ write.csv(Lai_shared, "Aging Analysis Results/Comparison with Other Studies/Lai 
 
 shared_gene_numbers <- rbind(shared_gene_numbers, cbind("Lai", "2007", 17196240, nrow(Lai_valid_stats), nrow(Lai_shared),
                                                         nrow(Lai_shared)/nrow(Lai_valid_stats), "M&F", "Full_Body", "Day7v10%Pop"))
-##Giradot et al. 2006####
+##Girardot et al. 2006####
 Sig_Genes <- read.csv("Aging Analysis Results/Comparison with Other Studies/Sig_Genes_Valid_IDs.csv", header = TRUE)
 Sig_Genes <- Sig_Genes[-c(1)]
 
-Giradot_Valid_IDs <- read.table("Aging Analysis Results/Comparison with Other Studies/Giradot et al/Giradot_FB_Genes_Day3_v_Day40_filtered.txt", header = TRUE)
-Giradot_head_probe <- read.csv("Aging Analysis Results/Comparison with Other Studies/Giradot et al/Giradot_head_probe.csv", header = TRUE)
+Girardot_Valid_IDs <- read.table("Aging Analysis Results/Comparison with Other Studies/Girardot et al/Girardot_FB_Genes_Day3_v_Day40_filtered.txt", header = TRUE)
+Girardot_head_probe <- read.csv("Aging Analysis Results/Comparison with Other Studies/Girardot et al/Girardot_head_probe.csv", header = TRUE)
 #Have modified from the original table so only showing head comparison and have ordered from smallest to greatest.
 
 #Pull out probes significant for the head and mark as down or up
-Giradot_Down <- Giradot_head_probe[1:1081,] #rows chosen based on coloring scheme in excel document.
-Giradot_Up <- Giradot_head_probe[3269:4503,]
-Giradot_Down$Direction <- "Down"
-Giradot_Up$Direction <- "Up"
-Giradot_Direction <- rbind(Giradot_Up, Giradot_Down)
+Girardot_Down <- Girardot_head_probe[1:1081,] #rows chosen based on coloring scheme in excel document.
+Girardot_Up <- Girardot_head_probe[3269:4503,]
+Girardot_Down$Direction <- "Down"
+Girardot_Up$Direction <- "Up"
+Girardot_Direction <- rbind(Girardot_Up, Girardot_Down)
 
 #Match with validated IDs
-colnames(Giradot_Valid_IDs)[1] <- "FlyBase_ID"
-Giradot_Valid <- inner_join(Giradot_Direction, Giradot_Valid_IDs, by=c("FlyBase_ID"))
+colnames(Girardot_Valid_IDs)[1] <- "FlyBase_ID"
+Girardot_Valid <- inner_join(Girardot_Direction, Girardot_Valid_IDs, by=c("FlyBase_ID"))
 #2260 genes
 #Have more rows than valid IDs. Check if genes with multiple probe sets have same direction
-unique(Giradot_Valid[c(2,12,13)]) %>% dplyr::count(FlyBase_ID) %>% filter(n > 1)
+unique(Girardot_Valid[c(2,12,13)]) %>% dplyr::count(FlyBase_ID) %>% filter(n > 1)
 # [1] FlyBase_ID n         
 # <0 rows> (or 0-length row.names)
 #So each row is agreeing in the direction so am keeping the genes
 
 #Pull out shared genes
-Giradot_shared <- inner_join(unique(Giradot_Valid[c(13,12)]), Sig_Genes, by=c("validated_id"))
-#1489 shared 2222 Giradot had validated
-write.csv(Giradot_shared, "Aging Analysis Results/Comparison with Other Studies/Giradot et al/Giradot_Shared_Genes.csv")
+Girardot_shared <- inner_join(unique(Girardot_Valid[c(13,12)]), Sig_Genes, by=c("validated_id"))
+#1489 shared 2222 Girardot had validated
+write.csv(Girardot_shared, "Aging Analysis Results/Comparison with Other Studies/Girardot et al/Girardot_Shared_Genes.csv")
 
-shared_gene_numbers <- as.data.frame(rbind(shared_gene_numbers, cbind("Giradot","2006",16584578,nrow(Giradot_Valid_IDs), nrow(Giradot_shared),
-                                                                      nrow(Giradot_shared)/nrow(Giradot_Valid_IDs), "M",
+shared_gene_numbers <- as.data.frame(rbind(shared_gene_numbers, cbind("Girardot","2006",16584578,nrow(Girardot_Valid_IDs), nrow(Girardot_shared),
+                                                                      nrow(Girardot_shared)/nrow(Girardot_Valid_IDs), "M",
                                                                       "Head","Day3vDay40")))
 #
 ##Landis et al. 2004####
