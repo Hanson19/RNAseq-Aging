@@ -280,10 +280,10 @@ trajectory_direction <-
   xlab("Cluster Expression Trajectory")+
   ylab("Number of Genes")+
   scale_fill_manual(values = c("gray93", "skyblue", "tomato"),
-                   labels = c("Gene not identified", "Up", "Down"))+
+                   labels = c("Not identified", "Up", "Down"))+
   geom_label(aes(label=Percent, y=Label_place), show.legend = FALSE, 
              label.size = 0, fill="white", alpha=0, size=3)+
-  guides(fill=guide_legend(title = c("Expression Change in\nYoung v Old Analysis")))+
+  guides(fill=guide_legend(title = c("Old v Young Analysis")))+
   theme_light()+
   theme(text = element_text(size = 10))
 
@@ -430,8 +430,8 @@ cluster_breakdown_plot <-
                                  "gray90",  #Linear Up
                                  "gray87",  #Not identified
                                  "skyblue"), #Up
-                      labels=c("Not Identified", "", "Up","","Down",""))+ #Up
-  guides(fill=guide_legend(title = c("Young v. Old Analysis Call"),
+                      labels=c("Not Identified", "", "Up in old","","Down in old",""))+ #Up
+  guides(fill=guide_legend(title = c("Young v Old Analysis"),
                            title.vjust = .8,
                            override.aes = list(fill=c("gray87", "white", "skyblue", "white", "tomato", "white"))))+
   #Set limits of plot so can color facet wrap background
