@@ -16,9 +16,10 @@
 #     day_NormCounts_deseq.csv
 #     gene_color_id_ref.csv
 #     cluster_color_id_ref.csv
+#     Combo_Analysis_Clustered_Z_scores_k28.csv
 
 #Created: 6/12/2024, KMH
-#Last Edited: 8/27/2024, KMH
+#Last Edited: 11/06/2024, KMH
 
 #PANGEA Preparation####
 #We will be using PANGEA (https://www.flyrnai.org/tools/pangea/web/multiple_search/7227)
@@ -274,7 +275,8 @@ pangea_enrichment_DeseqExp_Background(GROUPING = path, PVALVER = ben_hoch, SUBGR
 #The code requires a specific directory setup.
 # Master Directory/
 #   deseq_results/
-#     cluster_color_id_ref.csv
+#     All_Analyses/
+#       cluster_color_id_ref.csv
 #   Aging Analysis Results/
 #     Enrichment/
 #       gene groups/
@@ -443,7 +445,8 @@ library(tidyverse)
 #The code requires a specific directory setup.
 # Master Directory/
 #   deseq_results/
-#     cluster_color_id_ref.csv
+#     All_Analyses/
+#       cluster_color_id_ref.csv
 #   Aging Analysis Results/
 #     Enrichment/
 #       gene groups/
@@ -585,7 +588,8 @@ library(tidyverse)
 #The code requires a specific directory setup.
 # Master Directory/
 #   deseq_results/
-#     cluster_color_id_ref.csv
+#    All_Analyses/
+#       cluster_color_id_ref.csv
 #   Aging Analysis Results/
 #     Enrichment/
 #       gene groups/
@@ -652,3 +656,218 @@ rct <- "Reactome"
 term_count(GROUPING = c(gg, ont, path),
            SUBGROUPING = c(fb, slim2bp, slim2cc, slim2mf, drsc,rct))
 
+#Ribosomal Protein Trajectories####
+library(tidyverse)
+library(rms)
+library(RColorBrewer)
+library(ggpubr)
+
+#Identify genes that are associated with ribosomal related terms and examine
+#their expression patterns.
+#This code creates supplemental table M, and supplemental figures 13 and 14
+
+#The code requires a specific directory setup.
+# Master Directory/
+#   deseq_results/
+#     All Analyses/
+#       Combo_Analysis_Clustered_Z_scores_k28.csv
+#   Aging Analysis Results/
+#     Enrichment/
+#       gene groups/
+#         enrich_genegroups_DRSC_GLAD.csv
+#         enrich_genegroups_Flybase.csv
+#       gene ontology/
+#         enrich_SLIM2_BP.csv
+#         enrich_SLIM2_CC.csv
+#         enrich_SLIM2_MF.csv
+#       pathways/
+#         enrich_pathway_REACTOME.csv
+
+
+
+#This function pulls out all genes associated either ribosomal terms that are listed
+#in the TERMS variable. Genes may be pulled out multiple times. 
+ribosomal_counts <- function(GROUPING, SUBGROUPING, TERMS){
+  ribosomal_genes <- NULL
+  for (g in GROUPING) {
+    print(g)
+    for (s in SUBGROUPING) {
+      print(s)
+      if(g == "Gene_Group"){
+        pangea_add <- paste("Aging Analysis Results/Enrichment/gene groups/enrich_genegroups_",s,".csv", sep = "")
+      }else if (g == "Ontology"){
+        pangea_add <- paste("Aging Analysis Results/Enrichment/gene ontology/enrich_SLIM2_",s,".csv",sep = "")
+      }else if (g == "Pathway"){
+        pangea_add <- paste("Aging Analysis Results/Enrichment/pathways/enrich_pathway_",s,".csv", sep = "")
+      }
+      if (file.exists(pangea_add)){
+        pangea <- read.csv(pangea_add, header = TRUE)
+        pangea <- pangea[-c(1)]
+        ribosomal_terms <- pangea %>% filter(Gene.Set.ID %in% TERMS)
+        ribosomal_terms <- ribosomal_terms[c(1:3,228:255)]
+        colnames(ribosomal_terms) <- gsub("species.specific.ID.","",colnames(ribosomal_terms))
+        if (nrow(ribosomal_terms) != 0){
+          for (r in 1:nrow(ribosomal_terms)) {
+            #print(r)
+            for (c in 4:ncol(ribosomal_terms)) {
+              #print(c)
+              genes <- str_split_1(ribosomal_terms[r,c],pattern = "; ")
+              gene_set <- as.data.frame(cbind(ribosomal_terms[r,1:3], genes, colnames(ribosomal_terms)[c]))
+              colnames(gene_set)[4:5] <- c("gene_id", "cluster")
+              if(gene_set[1,4] != ""){
+                ribosomal_genes <- rbind(ribosomal_genes, gene_set)
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  ribosomal_genes$Desg <- gsub("\\..*", "", ribosomal_genes$cluster)
+  print(ribosomal_genes)
+}
+
+#Grouping
+gg <- "Gene_Group"
+ont <- "Ontology"
+path <- "Pathway"
+
+#Subgroups
+fb <- "Flybase"
+slim2bp <- "BP"
+slim2mf <- "MF"
+slim2cc <- "CC"
+drsc <- "DRSC_GLAD"
+rct <- "REACTOME"
+
+GeneSetIDs <- c("GLAD:24600", 
+                "GO:0042254", "GO:0003735","GO:0016072", 
+                "R-DME-6791226", "R-DME-72312","FBgg0001149", "R-DME-73864","R-DME-72706","R-DME-72702","R-DME-8868773",
+                "FBgg0000130","FBgg0000141", "FBgg0000200","FBgg0000071", "FBgg0000059", "FBgg0001149")
+
+all_ribosomal_proteins <- ribosomal_counts(GROUPING = c(gg, ont, path), SUBGROUPING = c(fb, slim2bp, slim2cc, slim2mf, drsc, rct), 
+                                           TERMS = GeneSetIDs)
+head(all_ribosomal_proteins)
+#             Gene.Set Gene.Set.ID                    Gene.Set.Name     gene_id      cluster       Desg
+# 1 FlyBase Gene Group FBgg0000059 MITOCHONDRIAL RIBOSOMAL PROTEINS FBgn0035122 LinearDown.6 LinearDown
+# 2 FlyBase Gene Group FBgg0000059 MITOCHONDRIAL RIBOSOMAL PROTEINS FBgn0035335 LinearDown.6 LinearDown
+# 3 FlyBase Gene Group FBgg0000059 MITOCHONDRIAL RIBOSOMAL PROTEINS FBgn0038678 LinearDown.6 LinearDown
+# 4 FlyBase Gene Group FBgg0000059 MITOCHONDRIAL RIBOSOMAL PROTEINS FBgn0011787 LinearDown.6 LinearDown
+# 5 FlyBase Gene Group FBgg0000059 MITOCHONDRIAL RIBOSOMAL PROTEINS FBgn0037330 LinearDown.6 LinearDown
+# 6 FlyBase Gene Group FBgg0000059 MITOCHONDRIAL RIBOSOMAL PROTEINS FBgn0036335 LinearDown.6 LinearDown
+
+##Suplemental Table M####
+#count the number of genes that are found for each of our terms. 
+ribosomal_terms <- all_ribosomal_proteins %>% count(Gene.Set, Gene.Set.ID, Gene.Set.Name) %>% arrange(Gene.Set, Gene.Set.ID)
+colnames(ribosomal_terms)[4] <- "Number of Genes"
+head(ribosomal_terms)
+#               Gene.Set Gene.Set.ID                        Gene.Set.Name Number of Genes
+# 1 DRSC GLAD Gene Group  GLAD:24600                             Ribosome             123
+# 2   FlyBase Gene Group FBgg0000059     MITOCHONDRIAL RIBOSOMAL PROTEINS              36
+# 3   FlyBase Gene Group FBgg0000071 CYTOPLASMIC SMALL RIBOSOMAL PROTEINS              33
+# 4   FlyBase Gene Group FBgg0000130                   RIBOSOMAL PROTEINS             118
+# 5   FlyBase Gene Group FBgg0000141       CYTOPLASMIC RIBOSOMAL PROTEINS              80
+# 6   FlyBase Gene Group FBgg0000200 CYTOPLASMIC LARGE RIBOSOMAL PROTEINS              46
+
+write.csv(ribosomal_terms, "SupTableM_ribosomal_Terms.csv")
+
+##Suplementary Figures 13 and 14####
+#Create a table listing all genes associated with mitochondrial ribosomal proteins, and 
+#a table that lists all other ribosomal related genes. 
+mitochondrial_ribosomes <- all_ribosomal_proteins %>% filter(Gene.Set.ID == "FBgg0000059")
+non_mitochondrial <- all_ribosomal_proteins %>% filter(Gene.Set.ID != "FBgg0000059") %>% filter(!gene_id %in% mitochondrial_ribosomes$gene_id)
+non_mitochondrial <- unique(non_mitochondrial[4:6])
+
+#Each table add a column designating if the gene is mitochondrial associated or not 
+#and then combine both tables. 
+non_mitochondrial$type <- "Not_Mitochondrial"
+mitochondrial_sbuset <- cbind(mitochondrial_ribosomes[4:6],"Mitochondrial")
+colnames(mitochondrial_sbuset)[4] <- "type"
+ribosome_type <- rbind(non_mitochondrial, mitochondrial_sbuset)
+
+#Read in Z scores of identified genes and combine with ribosomal type data frame
+z_scores <- read.csv("deseq_results/All Analyses/Combo_Analysis_Clustered_Z_scores_k28.csv", header = TRUE)
+z_scores_ribosomes <- left_join(ribosome_type, z_scores[-c(1,15,16)], by="gene_id")
+
+z_scores_ribosomes$cluster <- gsub("\\.","-",z_scores_ribosomes$cluster)
+z_scores_ribosomes$cluster <- factor(z_scores_ribosomes$cluster, levels = c("Complex-1","Complex-2","Complex-3","Complex-4",
+                                                                            "Complex-5","Complex-6","Complex-7","Complex-8",
+                                                                            "Complex-9", "Complex-10", "Complex-11","Complex-12",
+                                                                            "Complex-13","Complex-14", "LinearUp-1","LinearUp-2",
+                                                                            "LinearUp-3", "LinearUp-4", "LinearUp-5", "LinearUp-6",
+                                                                            "LinearUp-7", "LinearUp-8", "LinearDown-1", "LinearDown-2",
+                                                                            "LinearDown-3", "LinearDown-4", "LinearDown-5", "LinearDown-6"))
+
+#Create list of cytoplasmic ribosomal proteins
+cytoplasmic <- all_ribosomal_proteins %>% filter(Gene.Set.Name == "CYTOPLASMIC RIBOSOMAL PROTEINS")
+
+#Mitochondrial vs Cytoplasmic 
+#Plot expression trajecotires of only mitochondrial and cytoplasmic ribosomal proteins, regardless
+#of cluster
+mito_cyto_combine<- 
+  z_scores_ribosomes %>% ggplot(aes(x=day, y=Z_score))+
+  geom_smooth(data = z_scores_ribosomes %>% filter(gene_id %in% cytoplasmic$gene_id),method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE,aes(group=gene_id, color=type), linewidth=0.5)+
+  geom_smooth(data = z_scores_ribosomes %>% filter(type!="Not_Mitochondrial"),method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE,aes(group=gene_id, color=type), linewidth=0.5)+
+  scale_color_manual(values = brewer.pal(6,"Paired")[c(4,6)],
+                     labels = c("FBgg0000059: Mitochondrial Ribosomal Proteins",
+                                "FBgg0000141: Cytoplasmic Ribosomal Proteins"),
+                     name="Ribosomal Protein")+
+  ylab("Z score")+
+  xlab(("Day"))+
+  theme_bw()+
+  theme(legend.position = "none")+
+  theme(text = element_text(size=12))
+
+#Plot expression trajectories of only mitochondrial and cytoplasmic ribosomal proteins,
+#and facet based on cluster
+mito_cyto_clus <- 
+  z_scores_ribosomes %>%filter(gene_id %in% cytoplasmic$gene_id |type!="Not_Mitochondrial")%>% ggplot(aes(x=day, y=Z_score))+
+  facet_wrap(~cluster)+
+  geom_smooth(data = z_scores_ribosomes %>% filter(gene_id %in% cytoplasmic$gene_id),method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE,aes(group=gene_id, color=type), linewidth=0.5)+
+  geom_smooth(data = z_scores_ribosomes %>% filter(type!="Not_Mitochondrial"),method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE,aes(group=gene_id, color=type), linewidth=0.5)+
+  scale_color_manual(values = brewer.pal(6,"Paired")[c(4,6)],
+                     labels = c("FBgg0000059: Mitochondrial Ribosomal Proteins",
+                                "FBgg0000141: Cytoplasmic Ribosomal Proteins"),
+                     name="Ribosomal Protein")+
+  ylab("Z score")+
+  xlab(("Day"))+
+  theme_bw()+
+  theme(text = element_text(size=12))
+
+#merge both figures and save
+ribosomes_cyto_mito<-ggarrange(mito_cyto_combine, mito_cyto_clus, ncol=2, common.legend = TRUE, legend = "bottom")
+ggsave("Plots/SupFig13_Mito_Cyto.png",ribosomes_cyto_mito,width = 8.5, height = 5, units = "in")
+
+#Plot expression trajectories of mitochondrial proteins and all other ribosomal associated proteins. 
+mito_all_combine<- 
+  z_scores_ribosomes %>% ggplot(aes(x=day, y=Z_score))+
+  geom_smooth(data = z_scores_ribosomes ,method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE,aes(group=gene_id, color=type), linewidth=0.5)+
+  geom_smooth(data = z_scores_ribosomes %>% filter(type!="Not_Mitochondrial"),method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE,aes(group=gene_id, color=type), linewidth=0.5)+
+  scale_color_manual(values = brewer.pal(6,"Paired")[c(4,5)],
+                     labels = c("FBgg0000059: Mitochondrial Ribosomal Proteins",
+                                "All Other Ribosomal Related Genes"),
+                     name="Ribosomal Protein")+
+  ylab("Z score")+
+  xlab(("Day"))+
+  theme_bw()+
+  theme(text = element_text(size=12))
+
+#Plot expression trajectories of mitochondrial proteins and all other ribosomal associated proteins,
+#and facet by cluster. 
+mito_all_clus <- 
+  z_scores_ribosomes %>% ggplot(aes(x=day, y=Z_score))+
+  facet_wrap(~cluster, ncol=6)+
+  geom_smooth(method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE, show.legend = TRUE,aes(group=gene_id,color=type), linewidth=0.5)+
+  scale_color_manual(values = brewer.pal(6,"Paired")[c(4,5)],
+                     labels = c("FBgg0000059: Mitochondrial Ribosomal Proteins",
+                                "All Other Ribosomal Related Genes"),
+                     name="Ribosomal Protein")+
+  ylab("Z score")+
+  xlab(("Day"))+
+  theme_bw()+
+  theme(text = element_text(size=8.5),
+        legend.position = "none")
+
+#merge both figures and save
+ribosomes_all_mito<-ggarrange(mito_all_combine, mito_all_clus, ncol=2, common.legend = TRUE, legend = "bottom")
+ggsave("Plots/SupFig14_Mito_all.png",ribosomes_all_mito,width = 9, height = 5, units = "in")
