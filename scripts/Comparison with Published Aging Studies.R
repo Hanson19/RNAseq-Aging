@@ -8,10 +8,10 @@
 #Setup: Each main section begins with what packages are required and
 #expected directory structure. Code through identifying genes shared with
 #other papers, identifying our unique genes, and how to make supplemental 
-#table L and Supplemental Figures 11 and 12. 
+#table M and Supplemental Figures 13 and 14. 
 
 #Created:6/19/2024, KMH
-#Last Edited: 11/05/2024, KMH
+#Last Edited: 11/08/2024, KMH
 
 #Shared Genes####
 #Identify shared genes between our genes and other Aging expression papers
@@ -398,7 +398,7 @@ write.csv(Landis_shared, "Aging Analysis Results/Comparison with Other Studies/L
 shared_gene_numbers <- rbind(shared_gene_numbers, cbind("Landis", "2004", 15136717, nrow(Landis_valid_stats), nrow(Landis_shared),
                                                         nrow(Landis_shared)/nrow(Landis_valid_stats), "M", "Full_Body", "Day10vDay61"))
 
-##Sup Table L Partial####
+##Sup Table M Partial####
 #should have shared_gene_numbers table that has line for each paper
 colnames(shared_gene_numbers) <- c("First_Author", "Year","PMID","Num_Valid_Genes", 
                                    "Num_Shared_Genes", "Percent_Shared", "Sex", 
@@ -459,7 +459,7 @@ dim(Genes_Not_Found)
 write.csv(Genes_Found, "Aging Analysis Results/Comparison with Other Studies/Shared_Genes.csv")
 write.csv(Genes_Not_Found, "Aging Analysis Results/Comparison with Other Studies/Unique_Genes.csv")                                               
 
-###Sup Figure 11####
+###Sup Figure 13####
 #Make bar graph for each of our designations that shows how many times their genes
 #were identified in the 9 dataframes
 
@@ -493,7 +493,7 @@ Identification_Trajectory <-
   scale_y_continuous(labels = c("0%", "25%", "50%", "75%", "100%"))+
   theme_bw()
 
-ggsave("Plots/SupFig11_Identification_Trajectory.png", Identification_Trajectory, height = 6, width = 6, units = "in")
+ggsave("Plots/SupFig13_Identification_Trajectory.png", Identification_Trajectory, height = 6, width = 6, units = "in")
 
 designation_aov <- aov(lm(Percent~Designation*Count, data = Designation_Count))
 anova(designation_aov)
@@ -505,7 +505,7 @@ anova(designation_aov)
 # Residuals          0    0.0     NaN  
 
 #Direction Counts####
-#Supp Figure 12####
+#Supp Figure 14####
 #For our shared genes, get the direction counts based on trajectory designations
 
 library(tidyverse)
