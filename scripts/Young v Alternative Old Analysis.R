@@ -5,7 +5,7 @@
 #Using two sequential timepoints for our old time points (exception being
 #Days 3 and 6 which will still stand for our young timepoint). We want
 #to see how the changing the old cutoff point impact what genes are identified. 
-#Will show how to create Supplementary Figures 9 and 10 
+#Will show how to create Supplementary Figures 11 and 12 
 
 #Setup:
 #Each section begins with brief description of the goal, what R packages are 
@@ -14,7 +14,7 @@
 #gse_salmon_tximeta_yvo_AltOld#v36.RDS
 
 #Created: 8/19/2024, KMH
-#Last Edited: 8/28/24, KMH
+#Last Edited: 11/08/24, KMH
 
 #Deseq Gene Identification####
 library(BiocManager)
@@ -220,7 +220,7 @@ for (r in 1:nrow(D59_compare)) {
   }
 }
 
-##SupFig 9 All identified genes comparison####
+##SupFig 11 All identified genes comparison####
 #Get the comparison counts for each analysis ID
 D59_compare_count <- D59_compare %>% dplyr::count(Analysis_ID, Comparison)
 D59_compare_count$Comparison <- factor(D59_compare_count$Comparison, levels = c("Unique_Old59","Unique_OldAlt","Direct_Call_Differ","Direct_Call_Match"))
@@ -264,9 +264,9 @@ D59_all_cnt_plot <-
   theme(legend.position = "bottom",
         axis.text.x = element_text(angle = 325, hjust = 0.15))
 
-ggsave("Plots/SupFig9_Comparison_D59_total_Genes.png", D59_all_cnt_plot, height = 6, width = 6, units = "in")
+ggsave("Plots/SupFig11_Comparison_D59_total_Genes.png", D59_all_cnt_plot, height = 6, width = 6, units = "in")
 
-##SupFig 10 Trajectory Designation Copare####
+##SupFig 12 Trajectory Designation Copare####
 Multi_Tp_sig <- read.csv("deseq_results/All Analyses/gene_color_id_ref.csv", header = TRUE)
 #Add information about genes clusters
 D59_w_multi <- merge(Multi_Tp_sig[c(3,7)], D59_compare, by=c("gene_id"))
@@ -370,4 +370,4 @@ D59_compare_plot <-
         legend.background = element_blank(),
         axis.text.x = element_text(size=6))
 
-ggsave("Plots/SupFig10_Comparison_w_D59.png", D59_compare_plot, height = 6, width = 6, units = "in")  
+ggsave("Plots/SupFig12_Comparison_w_D59.png", D59_compare_plot, height = 6, width = 6, units = "in")  
