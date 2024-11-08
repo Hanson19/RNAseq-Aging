@@ -8,7 +8,7 @@
 #shared between Old v Young and our original multiple time point analysis, if
 #we see the genes being shared enriched for onr of our designated trajectories,
 #and if the direction called in Old v Young analysis matches with out data. 
-#In addition script shows how to make Figure 4 and Supplemental Figure 8
+#In addition script shows how to make Figure 4 and Supplemental Figure 10
 
 #Setup:
 #Each section begins with brief description of the goal, what R packages are 
@@ -17,7 +17,7 @@
 #gse_salmon_tximeta_ovy.RDS
 
 #Created:6/14/2024 KMH
-#Last Edited: 11/05/2024 KMH
+#Last Edited: 11/08/2024 KMH
 
 #Identifying Genes with DESeq####
 library(BiocManager)
@@ -297,7 +297,7 @@ trajectory_direction <-
 ggsave("Plots/Fig4_Trajectory_ovy_direction.png", trajectory_direction, height = 6, width = 6, units = "in")
 
 
-#Sup Fig 8 YvO Breakdown Indv Clusters####
+#Sup Fig 10 YvO Breakdown Indv Clusters####
 library(tidyverse)
 #Plot for each cluster the percent composition of genes called up and down in 
 #young v old analysis and those not identified. 
@@ -443,4 +443,4 @@ cluster_breakdown_plot <-
         legend.position = "bottom")
 
 #Save plot
-ggsave("Plots/SupFig8_IndvCluster_yvo.png",cluster_breakdown_plot, width = 6, height = 6, units = "in")
+ggsave("Plots/SupFig10_IndvCluster_yvo.png",cluster_breakdown_plot, width = 6, height = 6, units = "in")
