@@ -8,6 +8,8 @@
 #unique terms found in our three trajectory designations (LinearUp,LinearDown, 
 #and Complex), and unique terms found after the first divide in dendrogram
 #which is primarily based on if trajectories go up or down. 
+#In addition script includes ribosomal protein analysis and shows how to make
+#Supplementary Figures 7 and 8, and Supplementary Table L.
 
 #Setup:
 #Each section begins with brief description of the goal, what R packages are 
@@ -19,7 +21,7 @@
 #     Combo_Analysis_Clustered_Z_scores_k28.csv
 
 #Created: 6/12/2024, KMH
-#Last Edited: 11/06/2024, KMH
+#Last Edited: 11/08/2024, KMH
 
 #PANGEA Preparation####
 #We will be using PANGEA (https://www.flyrnai.org/tools/pangea/web/multiple_search/7227)
@@ -664,7 +666,7 @@ library(ggpubr)
 
 #Identify genes that are associated with ribosomal related terms and examine
 #their expression patterns.
-#This code creates supplemental table M, and supplemental figures 13 and 14
+#This code creates supplemental table L, and supplemental figures 7 and 8
 
 #The code requires a specific directory setup.
 # Master Directory/
@@ -769,9 +771,9 @@ head(ribosomal_terms)
 # 5   FlyBase Gene Group FBgg0000141       CYTOPLASMIC RIBOSOMAL PROTEINS              80
 # 6   FlyBase Gene Group FBgg0000200 CYTOPLASMIC LARGE RIBOSOMAL PROTEINS              46
 
-write.csv(ribosomal_terms, "SupTableM_ribosomal_Terms.csv")
+write.csv(ribosomal_terms, "SupTableL_ribosomal_Terms.csv")
 
-##Suplementary Figures 13 and 14####
+##Suplementary Figures 7 and 8####
 #Create a table listing all genes associated with mitochondrial ribosomal proteins, and 
 #a table that lists all other ribosomal related genes. 
 mitochondrial_ribosomes <- all_ribosomal_proteins %>% filter(Gene.Set.ID == "FBgg0000059")
@@ -836,7 +838,7 @@ mito_cyto_clus <-
 
 #merge both figures and save
 ribosomes_cyto_mito<-ggarrange(mito_cyto_combine, mito_cyto_clus, ncol=2, common.legend = TRUE, legend = "bottom")
-ggsave("Plots/SupFig13_Mito_Cyto.png",ribosomes_cyto_mito,width = 8.5, height = 5, units = "in")
+ggsave("Plots/SupFig7_Mito_Cyto.png",ribosomes_cyto_mito,width = 8.5, height = 5, units = "in")
 
 #Plot expression trajectories of mitochondrial proteins and all other ribosomal associated proteins. 
 mito_all_combine<- 
@@ -870,4 +872,4 @@ mito_all_clus <-
 
 #merge both figures and save
 ribosomes_all_mito<-ggarrange(mito_all_combine, mito_all_clus, ncol=2, common.legend = TRUE, legend = "bottom")
-ggsave("Plots/SupFig14_Mito_all.png",ribosomes_all_mito,width = 9, height = 5, units = "in")
+ggsave("Plots/SupFig8_Mito_all.png",ribosomes_all_mito,width = 9, height = 5, units = "in")
