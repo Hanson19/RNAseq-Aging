@@ -1,6 +1,6 @@
 #Introduction: Misc Supplemental Figures
 
-#Purpose: Show how supplemental Figures 2 and 7 were created
+#Purpose: Show how supplemental Figures 2 and 9 were created
 
 #Created: 8/28/2024, KMH
 #Last Edited: 8/28/24, KMH
@@ -32,7 +32,7 @@ day_surv_cor <-
 
 ggsave("Plots/SupFig2_day_surv_Cor.png", day_surv_cor, width = 6, height = 5, units = "in")
 
-#Supplemental Figure 7 RNA Concentraion####
+#Supplemental Figure 9 RNA Concentraion####
 library(tidyverse)
 library(ggpubr)
 
@@ -67,4 +67,4 @@ cor_con_day_plot <- rna_age_df %>% ggplot(aes(x=fly_age, y=rna_conc))+
   stat_cor(method = "pearson", label.x = 40, label.y.npc = "top")+
   theme_bw()
 
-ggsave("Plots/SupFig7_RNA_Conc_Decreasing_age.png",cor_con_day_plot,width = 6, height = 5, units = "in")
+ggsave("Plots/SupFig9_RNA_Conc_Decreasing_age.png",cor_con_day_plot,width = 6, height = 5, units = "in")
