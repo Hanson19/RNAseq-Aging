@@ -26,6 +26,7 @@ Below are listed and described the available scripts and data_frame directories.
   * Does require files made in Identifying_and_Clustering.R
 * Cluster Enrichment Analysis.R
   * Analysis of PANGEA results and creation of summary tables
+  * Creating Supplementary Figures 7 and 8, and Supplementary table L
   * Does require files made in Identifying_and_Clystering.R
 * Young v Old Analysis.R
   * Young v Old Analysis using samples from Days 3 and 6 as the young, and Day 59's samples the old.
