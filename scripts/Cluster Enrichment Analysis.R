@@ -9,7 +9,7 @@
 #and Complex), and unique terms found after the first divide in dendrogram
 #which is primarily based on if trajectories go up or down. 
 #In addition script includes ribosomal protein analysis and shows how to make
-#Supplementary Figures 7 and 8, and Supplementary Table L.
+#Figure 5, and Supplementary Table L.
 
 #Setup:
 #Each section begins with brief description of the goal, what R packages are 
@@ -666,7 +666,7 @@ library(ggpubr)
 
 #Identify genes that are associated with ribosomal related terms and examine
 #their expression patterns.
-#This code creates supplemental table L, and supplemental figures 7 and 8
+#This code creates supplemental table L, and Figure 5
 
 #The code requires a specific directory setup.
 # Master Directory/
@@ -803,73 +803,45 @@ z_scores_ribosomes$cluster <- factor(z_scores_ribosomes$cluster, levels = c("Com
 #Create list of cytoplasmic ribosomal proteins
 cytoplasmic <- all_ribosomal_proteins %>% filter(Gene.Set.Name == "CYTOPLASMIC RIBOSOMAL PROTEINS")
 
-#Mitochondrial vs Cytoplasmic 
-#Plot expression trajecotires of only mitochondrial and cytoplasmic ribosomal proteins, regardless
-#of cluster
-mito_cyto_combine<- 
-  z_scores_ribosomes %>% ggplot(aes(x=day, y=Z_score))+
-  geom_smooth(data = z_scores_ribosomes %>% filter(gene_id %in% cytoplasmic$gene_id),method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE,aes(group=gene_id, color=type), linewidth=0.5)+
-  geom_smooth(data = z_scores_ribosomes %>% filter(type!="Not_Mitochondrial"),method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE,aes(group=gene_id, color=type), linewidth=0.5)+
-  scale_color_manual(values = brewer.pal(6,"Paired")[c(4,6)],
-                     labels = c("FBgg0000059: Mitochondrial Ribosomal Proteins",
-                                "FBgg0000141: Cytoplasmic Ribosomal Proteins"),
+z_scores_ribosomes$type[z_scores_ribosomes$gene_id %in% cytoplasmic$gene_id] <- "cytoplasmic"
+
+z_scores_ribosomes$type <- factor(z_scores_ribosomes$type, levels = c("Not_Mitochondrial", "cytoplasmic", "Mitochondrial"))
+
+ribosomal_proteins_trajectory <- z_scores_ribosomes %>% ggplot(aes(x=day, y=Z_score))+
+  geom_smooth(data = z_scores_ribosomes %>% filter(!gene_id %in% cytoplasmic$gene_id & type == "Not_Mitochondrial"),method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE,aes(group=gene_id,color=type), linewidth=0.5)+
+  geom_smooth(data = z_scores_ribosomes %>% filter(gene_id %in% cytoplasmic$gene_id),method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE,aes(group=gene_id,color=type), linewidth=0.5)+
+  geom_smooth(data = z_scores_ribosomes %>% filter(type!="Not_Mitochondrial"),method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE,aes(group=gene_id,color=type), linewidth=0.5)+
+   scale_color_manual(values = brewer.pal(6,"Paired")[c(6,4,5)],
+                     labels = c("FBgg0000141: Cytoplasmic Ribosomal Proteins",
+                                "FBgg0000059: Mitochondrial Ribosomal Proteins",
+                                "All Other Ribosomal Related Genes"
+                                ),
                      name="Ribosomal Protein")+
   ylab("Z score")+
   xlab(("Day"))+
   theme_bw()+
-  theme(legend.position = "none")+
-  theme(text = element_text(size=12))
+  theme(text = element_text(size=10), legend.position = "none")
 
-#Plot expression trajectories of only mitochondrial and cytoplasmic ribosomal proteins,
-#and facet based on cluster
-mito_cyto_clus <- 
-  z_scores_ribosomes %>%filter(gene_id %in% cytoplasmic$gene_id |type!="Not_Mitochondrial")%>% ggplot(aes(x=day, y=Z_score))+
-  facet_wrap(~cluster)+
-  geom_smooth(data = z_scores_ribosomes %>% filter(gene_id %in% cytoplasmic$gene_id),method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE,aes(group=gene_id, color=type), linewidth=0.5)+
-  geom_smooth(data = z_scores_ribosomes %>% filter(type!="Not_Mitochondrial"),method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE,aes(group=gene_id, color=type), linewidth=0.5)+
-  scale_color_manual(values = brewer.pal(6,"Paired")[c(4,6)],
-                     labels = c("FBgg0000059: Mitochondrial Ribosomal Proteins",
-                                "FBgg0000141: Cytoplasmic Ribosomal Proteins"),
-                     name="Ribosomal Protein")+
-  ylab("Z score")+
-  xlab(("Day"))+
-  theme_bw()+
-  theme(text = element_text(size=12))
-
-#merge both figures and save
-ribosomes_cyto_mito<-ggarrange(mito_cyto_combine, mito_cyto_clus, ncol=2, common.legend = TRUE, legend = "bottom")
-ggsave("Plots/SupFig7_Mito_Cyto.png",ribosomes_cyto_mito,width = 8.5, height = 5, units = "in")
-
-#Plot expression trajectories of mitochondrial proteins and all other ribosomal associated proteins. 
-mito_all_combine<- 
-  z_scores_ribosomes %>% ggplot(aes(x=day, y=Z_score))+
-  geom_smooth(data = z_scores_ribosomes ,method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE,aes(group=gene_id, color=type), linewidth=0.5)+
-  geom_smooth(data = z_scores_ribosomes %>% filter(type!="Not_Mitochondrial"),method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE,aes(group=gene_id, color=type), linewidth=0.5)+
-  scale_color_manual(values = brewer.pal(6,"Paired")[c(4,5)],
-                     labels = c("FBgg0000059: Mitochondrial Ribosomal Proteins",
-                                "All Other Ribosomal Related Genes"),
-                     name="Ribosomal Protein")+
-  ylab("Z score")+
-  xlab(("Day"))+
-  theme_bw()+
-  theme(text = element_text(size=12))
-
-#Plot expression trajectories of mitochondrial proteins and all other ribosomal associated proteins,
-#and facet by cluster. 
-mito_all_clus <- 
+ribosomal_proteins_trajectory_facet <- 
   z_scores_ribosomes %>% ggplot(aes(x=day, y=Z_score))+
   facet_wrap(~cluster, ncol=6)+
-  geom_smooth(method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE, show.legend = TRUE,aes(group=gene_id,color=type), linewidth=0.5)+
-  scale_color_manual(values = brewer.pal(6,"Paired")[c(4,5)],
-                     labels = c("FBgg0000059: Mitochondrial Ribosomal Proteins",
-                                "All Other Ribosomal Related Genes"),
+  geom_smooth(data = z_scores_ribosomes %>% filter(!gene_id %in% cytoplasmic$gene_id & type == "Not_Mitochondrial"),method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE,aes(group=gene_id,color=type), linewidth=0.5)+
+  geom_smooth(data = z_scores_ribosomes %>% filter(gene_id %in% cytoplasmic$gene_id),method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE,aes(group=gene_id,color=type), linewidth=0.5)+
+  geom_smooth(data = z_scores_ribosomes %>% filter(type!="Not_Mitochondrial"),method = "lm", formula = y~rcs(x,quantile(x, c(0,0.25,0.5,0.75,1))), se = FALSE,aes(group=gene_id,color=type), linewidth=0.5)+
+  scale_color_manual(values = brewer.pal(6,"Paired")[c(6,4,5)],
+                     labels = c("Cytoplasmic Ribosomal Proteins",
+                                "Mitochondrial Ribosomal Proteins",
+                                "All Other Ribosomal Related Genes"
+                     ),
                      name="Ribosomal Protein")+
   ylab("Z score")+
   xlab(("Day"))+
   theme_bw()+
-  theme(text = element_text(size=8.5),
-        legend.position = "none")
+  theme(text = element_text(size=10), legend.position = "bottom", legend.text = element_text(size=9, margin = margin(0,30)),
+        legend.title = element_blank())
 
-#merge both figures and save
-ribosomes_all_mito<-ggarrange(mito_all_combine, mito_all_clus, ncol=2, common.legend = TRUE, legend = "bottom")
-ggsave("Plots/SupFig8_Mito_all.png",ribosomes_all_mito,width = 9, height = 5, units = "in")
+
+all_types_combine<-ggarrange(ribosomal_proteins_trajectory, ribosomal_proteins_trajectory_facet, ncol=1)
+
+# all_types_combine<-ggarrange(all_types, facet_all, ncol=1, common.legend = TRUE,legend = "bottom")
+ggsave("Plots/Fig5_Ribosomal_expression.png",all_types_combine,width = 9, height = 9, units = "in")
