@@ -5,7 +5,7 @@
 #This script will go through how genes were identified, how genes were 
 #clustered together using expression trajectories, how number of clusters was determined
 #and how a cluster's trajectory was designated. 
-#In addition script shows how supplementary Figures 3-4, Figures 1-3 and 
+#In addition script shows how supplementary Figures 2-3, Figures 2-4 and 
 #Supplementary Table D and E was made.
 
 #Setup:
@@ -188,7 +188,7 @@ dir.create("deseq_results/All Analyses")
 #Save file
 write.csv(all_sig_genes,"deseq_results/All Analyses/Sig_Genes_AnalysisID.csv")
 
-##Figure 1 UpsetR of Analysis Identification####
+##Figure 2 UpsetR of Analysis Identification####
 #Make Upset figure to show the overlap of genes identified in different analyses
 library(ComplexUpset)
 
@@ -248,7 +248,7 @@ upset4_analysis[[3]] <-
 
 upset4_analysis
 
-ggsave("Plots/Fig1_UpsetAnalysis.png", upset4_analysis, width = 7.5, height =7, units = "in")
+ggsave("Plots/Fig2_UpsetAnalysis.png", upset4_analysis, width = 7.5, height =7, units = "in")
 
 #
 #Clustering Identified Genes using Expression Trajectories####
@@ -479,7 +479,7 @@ gene_count_df %>% filter(K_value == 27 | K_value == 28 | K_value == 29)
 #Visualize the changing clusters
 #Mark clusters that are going being broken apart with red, and the ones that 
 #are the new clusters in green
-##Sup Fig 3  Cluster Determination####
+##Sup Fig 2  Cluster Determination####
 gene_count_df$color <- "NC"
 gene_count_df$color[gene_count_df$K_value == 27 & gene_count_df$n == 458] <- "R"
 gene_count_df$color[gene_count_df$K_value == 28 & gene_count_df$n == 167] <- "B"
@@ -519,7 +519,7 @@ gene_distribute_graph<-
   theme_bw()+
   theme(text = element_text(size=10), legend.position = "bottom")
 
-ggsave("deseq_results/Cluster Number Determination/SupFig3_Gene_Distribution.png", gene_distribute_graph, height = 6, width = 7, units = "in")
+ggsave("deseq_results/Cluster Number Determination/SupFig2_Gene_Distribution.png", gene_distribute_graph, height = 6, width = 7, units = "in")
 
 #
 #Classifying Cluster Trajectories####
@@ -616,7 +616,7 @@ lm_results <- merge(lm_results, color_clus_id[c(3,5)], by=c("Dendo_clus"))
 #Figures in the paper that use the data generated in the previous sections, but
 #are not directly made in those sections
 
-##Figure 2 Simplified Dendrogram####
+##Figure 3 Simplified Dendrogram####
 #Want to simplify dendrogram so each cluster is represented by one colored line,
 #labeled at the end, and colors are more distinct then default colors used in
 #Clustering Identified Genes section
@@ -787,7 +787,7 @@ dendo_white+
         axis.text.y = element_blank(),
         title = element_blank())
 
-ggsave("Plots/Fig2_Dendo_Vertical.png", dendo_white+
+ggsave("Plots/Fig3_Dendo_Vertical.png", dendo_white+
          coord_flip(ylim = c(2,0.7))+
          theme(axis.ticks = element_blank(),
                axis.title = element_blank(),
@@ -829,7 +829,7 @@ write.csv(cluster_color_id,"deseq_results/All Analyses/cluster_color_id_ref.csv"
 write.csv(gene_color_id,"deseq_results/All Analyses/gene_color_id_ref.csv")
 
 #
-##Sup Figure 4 Recolored Dendrogram####
+##Sup Figure 3 Recolored Dendrogram####
 #Complete dendrogram with each gene plotted but recolored and labeled to match 
 #Simplified dendrogram 
 library(RColorBrewer)
@@ -914,9 +914,9 @@ for (c in unique(cluster_col_info$col)) {
 dendo_supp[["layers"]][[1]][["data"]] <- df
 dendo_supp+theme(title = element_blank())
 
-ggsave("Plots/SupFig4_Dendo.png", dendo_supp+theme(title = element_blank()), width = 11, height = 8, units = "in") 
+ggsave("Plots/SupFig3_Dendo.png", dendo_supp+theme(title = element_blank()), width = 11, height = 8, units = "in") 
 
-##Figure 3 Rep Curves####
+##Figure 4 Rep Curves####
 library(tidyverse)
 library(rms)
 library(RColorBrewer)
@@ -1000,4 +1000,4 @@ rep_curves <-
   theme(text = element_text(size=7),
         strip.background = element_rect(fill=NA))
   
-ggsave("Plots/Fig3_RepCurves.png",rep_curves, width = 6, height = 6, units = "in")
+ggsave("Plots/Fig4_RepCurves.png",rep_curves, width = 6, height = 6, units = "in")
