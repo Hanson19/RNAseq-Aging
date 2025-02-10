@@ -19,36 +19,36 @@ Below are listed and described the available scripts and data_frame directories.
   * Identifying genes whose expression changes with aging and clustering those
   genes using their expression trajectories.
   * Determining if a cluster has a complex or linear trajectory
-  * Creating Figures 1-2, Supplementary Figures 3 and 4, and Supplementary tables D and E
+  * Creating Figures 2-3, Supplementary Figures 2 and 3, and Supplementary tables D and E
 * Designation Analysis ID Enrichment.R
   * Comparing Clusters and trajectories gene analysis identification.
-  * Creating Supplementary Figures 5 and 6
+  * Creating Supplementary Figures 4 and 5
   * Does require files made in Identifying_and_Clustering.R
 * Cluster Enrichment Analysis.R
   * Analysis of PANGEA results and creation of summary tables
-  * Creating Supplementary Figures 7 and 8, and Supplementary table L
+  * Creating Figure 5, and Supplementary table L
   * Does require files made in Identifying_and_Clystering.R
 * Young v Old Analysis.R
   * Young v Old Analysis using samples from Days 3 and 6 as the young, and Day 59's samples the old.
   * Compared identified genes in analysis with those identified in the multi-timepoint analysis. 
   * Looked at the distribution of YvO direction calls across clusters and trajectory designations.
-  * Creating Figure 4 and Supplementary Figure 10
+  * Creating Figure 6 and Supplementary Figure 7
   * Requires files made in Identifying_and_Clustering.R
 * Young v Alternative Old Analysis.R
   * Young v Old Analyses using alternative old samples which come from two consecutive collection days.
   * Compared gene identification and direction calls of the alternative analyses and the original
   Day 59 analysis as well as the multi-timepoint analysis.
-  * Creating Supplementary Figures 11 and 12
+  * Creating Supplementary Figures 8 and 9
   * Requires files made in Identifying_and_Clustering.R
 * Comparison with Published Aging Studies.R
   * Comparing our identified multi-timepoint genes with 9 data frames from previously published Young v Old aging expression analyses. 
-  * Creating Supplementary Figures 13 and 14, and Supplementary Table M
+  * Creating Supplementary Figures 10 and 11, and Supplementary Table M
 * Misc Supplemental Figure Code.R
-  * Creating Supplementary Figures 2 and 9
+  * Creating Supplementary Figures 1 and 6
   * Require files made in Identifying_and_Clustering.R
 * Aging_Survivorship_Code.R
   * Kaplan-Meier Survivorship curve
-  * Creating Supplementary Figure 1
+  * Figure 1
 * Tximeta transcript quantification import.R
   * Script we used to get from quant.sf files for individual samples and
   summarize the results to a gene level.
