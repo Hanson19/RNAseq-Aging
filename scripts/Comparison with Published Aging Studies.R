@@ -8,7 +8,7 @@
 #Setup: Each main section begins with what packages are required and
 #expected directory structure. Code through identifying genes shared with
 #other papers, identifying our unique genes, and how to make supplemental 
-#table M and Supplemental Figures 13 and 14. 
+#table M and Supplemental Figures 10 and 11. 
 
 #Created:6/19/2024, KMH
 #Last Edited: 11/08/2024, KMH
@@ -459,7 +459,7 @@ dim(Genes_Not_Found)
 write.csv(Genes_Found, "Aging Analysis Results/Comparison with Other Studies/Shared_Genes.csv")
 write.csv(Genes_Not_Found, "Aging Analysis Results/Comparison with Other Studies/Unique_Genes.csv")                                               
 
-###Sup Figure 13####
+###Sup Figure 10####
 #Make bar graph for each of our designations that shows how many times their genes
 #were identified in the 9 dataframes
 
@@ -493,7 +493,7 @@ Identification_Trajectory <-
   scale_y_continuous(labels = c("0%", "25%", "50%", "75%", "100%"))+
   theme_bw()
 
-ggsave("Plots/SupFig13_Identification_Trajectory.png", Identification_Trajectory, height = 6, width = 6, units = "in")
+ggsave("Plots/SupFig10_Identification_Trajectory.png", Identification_Trajectory, height = 6, width = 6, units = "in")
 
 designation_aov <- aov(lm(Percent~Designation*Count, data = Designation_Count))
 anova(designation_aov)
@@ -505,7 +505,7 @@ anova(designation_aov)
 # Residuals          0    0.0     NaN  
 
 #Direction Counts####
-#Supp Figure 14####
+#Supp Figure 11####
 #For our shared genes, get the direction counts based on trajectory designations
 
 library(tidyverse)
