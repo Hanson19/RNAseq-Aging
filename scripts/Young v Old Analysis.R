@@ -8,7 +8,7 @@
 #shared between Old v Young and our original multiple time point analysis, if
 #we see the genes being shared enriched for onr of our designated trajectories,
 #and if the direction called in Old v Young analysis matches with out data. 
-#In addition script shows how to make Figure 4 and Supplemental Figure 10
+#In addition script shows how to make Figure 6 and Supplementary Figure 7.
 
 #Setup:
 #Each section begins with brief description of the goal, what R packages are 
@@ -174,7 +174,7 @@ cluster_unique_percent %>% ggplot(aes(x=Designation, y= Percent))+
 #expression started vs ended. Complex 9, 6, 7 are also clusters whose
 #linear regression with aging p-value was below 0.05, but above 0.002
 
-#Fig 4 Designated Trajectory Direction####
+#Fig 6 Designated Trajectory Direction####
 #Old v Young anlaysis can only call if a gene's expression increases
 #or decreases. Our question is how do these call stack up within our
 #designated trajectories. Do we find the genes in our linearup trajectories, genes
@@ -294,10 +294,10 @@ trajectory_direction <-
 #identified young v old analysis and for the genes that are identified they are
 #heavily split between being called Up or Down. 
 
-ggsave("Plots/Fig4_Trajectory_ovy_direction.png", trajectory_direction, height = 6, width = 6, units = "in")
+ggsave("Plots/Fig6_Trajectory_ovy_direction.png", trajectory_direction, height = 6, width = 6, units = "in")
 
 
-#Sup Fig 10 YvO Breakdown Indv Clusters####
+#Sup Fig 7 YvO Breakdown Indv Clusters####
 library(tidyverse)
 #Plot for each cluster the percent composition of genes called up and down in 
 #young v old analysis and those not identified. 
@@ -443,4 +443,4 @@ cluster_breakdown_plot <-
         legend.position = "bottom")
 
 #Save plot
-ggsave("Plots/SupFig10_IndvCluster_yvo.png",cluster_breakdown_plot, width = 6, height = 6, units = "in")
+ggsave("Plots/SupFig7_IndvCluster_yvo.png",cluster_breakdown_plot, width = 6, height = 6, units = "in")
