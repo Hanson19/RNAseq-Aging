@@ -91,23 +91,29 @@ plot(my.fit, main="Kaplan-Meier estimate with 95% confidence bounds",
 points(trunc.KM.data[,1],trunc.KM.data[,2],pch=16,col="red")
 graphics.off()
 
-#Sup Figure 1####
+#Figure 1####
+library(tidyverse)
+					  
 all.KM.data <- read.table("Survivorship/output.KaplanMeier.survivorship.txt", header = TRUE)
 colnames(all.KM.data) <- c("day", "Survivorship", "SE", "Sampling_Day")
 all.KM.data$Add_Day_inf <- all.KM.data$Sampling_Day
 all.KM.data$Sampling_Day <- as.factor(all.KM.data$Sampling_Day)
 all.KM.data$Add_Day_inf[all.KM.data$day == 17 | all.KM.data$day == 31 | all.KM.data$day == 45] <- 3
 all.KM.data$Add_Day_inf <- as.factor(all.KM.data$Add_Day_inf)
-
+					
+SP <- all.KM.data %>% filter(Sampling_Day == 1)
+SP$Label <- paste("SP",1:15, sep = "")
+					  
 SurvivorvDay_plot <- 
   all.KM.data %>% ggplot(aes(x=day, y=Survivorship))+
-  geom_line(linewidth = 0.5)+ #of 0.75
+  geom_line(linewidth = 0.5)+
   geom_point(aes(color=Sampling_Day), show.legend = TRUE, size=1)+
   scale_color_manual(values = c("black", "red"), labels = c("Count Day","Sample Day"))+
   xlab("Day")+
-  ggtitle("Survivorship Curve")+
+  geom_text(data = SP, aes(x=day, y=Survivorship, label=Label), nudge_y = .09,nudge_x = .75, size=2, angle=45)+
   labs(color="Sampling Day")+
+  scale_y_continuous(breaks = c(0, 0.25, 0.5, 0.75,1))+					  
   theme_classic()+
-  theme(plot.title = element_text(hjust = 0.5), text = element_text(size=7), legend.position = c(0.2,0.25))
+  theme(plot.title = element_text(hjust = 0.5), text = element_text(size=7), legend.position = "none")
 
-ggsave("Plots/SupFig1_Survival Curve", SurvivorvDay_plot, width = 4, height =2.5, units = "in")
+ggsave("Plots/Fig1_Survival Curve", SurvivorvDay_plot, width = 4, height =2.5, units = "in")
