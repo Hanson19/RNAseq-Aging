@@ -5,14 +5,14 @@
 #for genes that were identified in certain analyses. Specifically, are the complex
 #genes more often identified in sampling point analyses
 #
-#Setup: This code will show how to make supplementary figures 5 and 6. Code
+#Setup: This code will show how to make supplementary figures 4 and 5. Code
 #requires going through Identifying_and_Clustering.R
 
 #Created: 6/24/2024, KMH
 #Last Edited: 8/09/2024, KMH
 
 #Expression Designation and Analysis ID#####
-#Sup Figure 5####
+#Sup Figure 4####
 library(tidyverse)
 library(RColorBrewer)
 library(gridExtra)
@@ -96,11 +96,11 @@ desg_analysisid<-
 
 #Combine and Save
 desg_analysis_combine <- grid.arrange(analysisid_desg, desg_analysisid, ncol=1)
-ggsave("Plots/SupFig5_Desg_Analysis_ID.png",desg_analysis_combine, width = 6.5, height = 6, units = "in")
+ggsave("Plots/SupFig4_Desg_Analysis_ID.png",desg_analysis_combine, width = 6.5, height = 6, units = "in")
 
 
 #Cluster and Analysis ID####
-#Sup Figure 6 Indv Clusters####
+#Sup Figure 5 Indv Clusters####
 library(tidyverse)
 library(RColorBrewer)
 library(gridExtra)
@@ -181,4 +181,4 @@ cluster_analysis_id <-
 #clusters are genes found in all three analyses or genes found only in Day and Survival. 
 
 #Save plot
-ggsave("Plots/SupFig6_Cluster_Analysis_ID.png",cluster_analysis_id, width = 6.5, height = 6, units = "in")
+ggsave("Plots/SupFig5_Cluster_Analysis_ID.png",cluster_analysis_id, width = 6.5, height = 6, units = "in")
