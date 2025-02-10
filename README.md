@@ -19,7 +19,7 @@ Below are listed and described the available scripts and data_frame directories.
   * Identifying genes whose expression changes with aging and clustering those
   genes using their expression trajectories.
   * Determining if a cluster has a complex or linear trajectory
-  * Creating Figures 2-3, Supplementary Figures 2 and 3, and Supplementary tables D and E
+  * Creating Figures 2-4, Supplementary Figures 2 and 3, and Supplementary tables D and E
 * Designation Analysis ID Enrichment.R
   * Comparing Clusters and trajectories gene analysis identification.
   * Creating Supplementary Figures 4 and 5
