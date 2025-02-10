@@ -1,11 +1,11 @@
 #Introduction: Misc Supplemental Figures
 
-#Purpose: Show how supplemental Figures 2 and 9 were created
+#Purpose: Show how supplemental Figures 1 and 6 were created
 
 #Created: 8/28/2024, KMH
 #Last Edited: 8/28/24, KMH
 
-#Supplemental Figure 2 Correlation Date and Survival####
+#Supplemental Figure 1 Correlation Date and Survival####
 library(tidyverse)
 library(ggpubr)
 
@@ -30,9 +30,9 @@ day_surv_cor <-
   ylab("Survivorship\n(Percent Alive)")+xlab("Day")+
   theme_bw()
 
-ggsave("Plots/SupFig2_day_surv_Cor.png", day_surv_cor, width = 6, height = 5, units = "in")
+ggsave("Plots/SupFig1_day_surv_Cor.png", day_surv_cor, width = 6, height = 5, units = "in")
 
-#Supplemental Figure 9 RNA Concentraion####
+#Supplemental Figure 6 RNA Concentraion####
 library(tidyverse)
 library(ggpubr)
 
@@ -67,4 +67,4 @@ cor_con_day_plot <- rna_age_df %>% ggplot(aes(x=fly_age, y=rna_conc))+
   stat_cor(method = "pearson", label.x = 40, label.y.npc = "top")+
   theme_bw()
 
-ggsave("Plots/SupFig9_RNA_Conc_Decreasing_age.png",cor_con_day_plot,width = 6, height = 5, units = "in")
+ggsave("Plots/SupFig6_RNA_Conc_Decreasing_age.png",cor_con_day_plot,width = 6, height = 5, units = "in")
